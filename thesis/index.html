@@ -1,0 +1,252 @@
+<!DOCTYPE HTML>
+<!--
+	Photon by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Low Precision CNN accelerator</title>
+		<link href="images/ico.png" rel="SHORTCUT ICON">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../assets/css/style.css" type="text/css" media="screen,projection" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+		    
+			<!-- section id="header">
+				<div class="inner">
+					<! span class="icon solid major fa-cloud"></span>
+					<h1>Hi, I'm <strong>Photon</strong>, another fine<br />
+					little freebie from <a href="http://html5up.net">HTML5 UP</a>.</h1>
+					<p>Accumsan feugiat mi commodo erat lorem ipsum, sed magna<br />
+					lobortis feugiat sapien sed etiam volutpat accumsan.</p>
+					<ul class="actions special">
+						<li><a href="#one" class="button scrolly">Discover</a></li>
+					</ul>
+				</div>
+			</section -->
+		<!-- Nav -->
+        <nav id="nav">
+            <ul class="container">
+
+                <li><a href="#home">Home</a></li>
+                <li><a href="#abstract">Abstract</a></li>
+				<li><a href="#architecture">Architecture</a></li>
+				<li><a href="#result">Result</a></li>
+				<li><a href="#references">References</a></li>
+				<li><a href="https://github.com/enhoshen/lpAccel" class="icon brands alt fa-github"><span 
+				class="label">GitHub</span></a></li>
+				<li><a href="https://github.com/enhoshen/lpAccel/blob/master/Thesis_lpAccel_enc.pdf" 
+				class="icon far alt fa-file"><span class="label">Paper</span></a></li>
+
+            </ul>
+        </nav>
+
+		<!-- Home -->
+        <section id="home" class="main style1 special">
+            <article class="container" id="home">
+                <h2>Reconfigurable Low Arithmetic Precision Convolution Neural Network Accelerator VLSI Design and Implementation </h2>
+                <h4>NTU GIEE Master Thesis</h4>
+                <br>
+                <div class="row center">
+                    <div class="author col l2 offset-l1 m4 s12" >En-Ho Shen</a></div>
+                    <div class="author col l2 m4 s12">Jan Klopp</a></div>
+                    <div class="author col l2 m4 s12"><a href="http://www.ee.ntu.edu.tw/profile?id=101" target="_blank">Shao-Yi Chien</a></div>
+                </div>
+                <br>
+                <div class="col">
+                    <div class="institute">
+                        <a href="http://media.ee.ntu.edu.tw/" target="_blank">Media IC & System Lab</a>,
+                        <a href="http://www.ntu.edu.tw/" target="_blank">National Taiwan University</a>
+                    </div>
+                </div>
+                <br>
+
+            </article>
+        </section>
+
+
+
+		<!-- One -->
+	
+			<section id="abstract" class="main style1 special">
+				<div class="container">
+					<header class="major">
+						<h2>Abstract</h2>
+					</header>
+					<p>Deep neural networks (DNNs) shows promising results on various AI application tasks. 
+					However such networks typically are executed on general purpose GPUs with bulky size in 
+					form factor and hundreds of watt in power consumption, which is unsuitable for mobile 
+					applications. In this thesis, we present a VLSI architecture able to execute quantized 
+					low numeric-precision convolution neural networks (CNNs), cutting down power consumption
+					from memory access and speeding up the model with limited area budget, which particularly 
+					fits for mobile devices. We first propose a quantization re-training algorithm for training 
+					low-precision CNN, as well as a dataflow with high data reuse rate with a specially 
+					data multiplication accumulation strategy specially designed for such quantized model.
+					To fully utilize the efficiency of computation with such lowprecision data, we also design 
+					a micro-architecture for low bit-length multiplication and accumulation, an on-chip memory 
+					hierarchy and data realignment flow for power saving and avoiding buffer bank-conflicts, 
+					and a processing element (PE) array designed for taking broadcast-ed data from buffer and 
+					sending out result data sequentially back to the buffer for such dataflow. The architecture 
+					is highly flexible for various CNN shapes and re-configurable for low bit-length quantized models.
+					We have implemented the proposed VLSI architecture with TSMC 90nm cell library. with the hardware cost
+					of 180KB onchip memory and 1340k logic gate counts, the implementation result shows stateof-the-art 
+					hardware efficiency.</p>
+
+				</div>
+			</section>
+
+
+		<!-- Three -->
+			<section id="architecture" class="main style1 special">
+				<div class="container">
+					<header class="major">
+						<h2>Architecture overview</h2>
+					</header>
+					<div class="row gtr-150">
+						<div class="col-4 col-12-medium">
+							<span class="image fit"><img src="images/arch.png" alt="" /></span>
+							<h3>System overview</h3>
+							<p>The system contains four level of buffer hierarchy, which are 
+							global buffer, input/weight buffer, PE register files, PE output register.</p>
+
+						</div>
+						<div class="col-4 col-12-medium">
+							<span class="image fit"><img src="images/PE.png" alt="" /></span>
+							<br/>
+							<h3>PE column</h3>
+							<p>A column of 16 PE contains one input register file, 16 weight and partial sum
+							register file, exploiting any possible data reuse-ability.</p>
+						</div>
+						<div class="col-4 col-12-medium">
+							<span class="image fit"><img src="images/AU.png" alt="" /></span>
+							<h3>Reconfigurable low precsion<br/>
+							arithmetic unit</h3>
+							<p>The system support 1b AND/XNOR, 2b, 4b, 8b multiplication, in sub-word accumulation
+							style, meaning that data are summed up within a word.</p>
+
+						</div>
+					</div>
+				</div>
+			</section>
+		<!-- three -->
+
+		<section id="dataflow" class="main style1 special">
+				<div class="container">
+					<div class="row gtr-150">
+						<div class="col-6 col-12-medium">
+							<header class="major">
+								<h2>Output row stationary</h2>
+							</header>
+							<p>Output row stationary indicates that the computation of an output
+							partial sum row in each PE, taking broadcasted input and weight from
+							corresponding buffers.</p>
+						</div>
+						<div class="col-6 col-12-medium imp-medium">
+							<span class="image fit"><img src="images/pe_dataflow.png" alt="" /></span>
+						</div>
+					</div>
+				</div>
+			</section>
+		<!-- four -->
+
+		<section id="arithmetic" class="main style1 special">
+				<div class="container">
+					<div class="row gtr-150">
+						<div class="col-6 col-12-medium">
+							<header class="major">
+								<h2>Sub-word accumulation</h2>
+							</header>
+							<p>The arithmetic operations can be re-configured to be summing up 1,2,4,8 of products
+							of 8b,4b,2b,1b multiplication, to efficiently compute data re-packed along channel dimension.
+							We also implemented XNOR multiplication mode.</p>
+						</div>
+						<div class="col-6 col-12-medium imp-medium">
+							<span class="image fit"><img src="images/subword.png" alt="" /></span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		<!-- five -->
+
+		<section id="result" class="main style1 special">
+				<div class="container">
+					<div class="row gtr-150">
+						<div class="col-6 col-12-medium">
+							<header class="major">
+								<h2>Result</h2>
+							</header>
+							<p>The design is synthesized currently on TSMC 90nm CMOS technology. The result
+							is promising even without normalization, showing great potential for low numeric-precision
+							precision operation on accelerating convolution neural networks. The AlexNet and Vgg16 settings
+							consist mainly of 4b weight and activation. Alex XNOR settings is of binary data except for
+							8b first layer. TensorRT AlexNet consist of entirely 8b data.</p>
+						</div>
+						<div class="col-6 col-12-medium imp-medium">
+							<span class="image fit"><img src="images/results.png" alt="" /></span>
+						</div>
+					</div>
+				</div>
+			</section>
+		<!-- six -->
+
+		<section id="references" class="main style1 special">
+				<div class="container">
+					<header class="major">
+						<h2>References</h2>
+					</header>
+					<ul class="default" style="text-align:left">
+                    <li>
+                        Y. Chen, T. Krishna, J. Emer, and V. Sze, "
+						<a href="http://eyeriss.mit.edu/" target="_blank">
+						Eyeriss: A spatial architecture for energyefficient dataflow for convolutional neural networks</a>." JSSC, 2016.
+                    </li>
+                    <li>
+                        B. Moons and M. Verhelst,  
+						"<a href=" http://arxiv.org/abs/1606.05094" target="_blank">
+						A 0.3-2.6 TOPS/W precision-scalable processor for real-time large-scale convnets</a>." VLSI, 2016.
+                    </li>
+					<li>
+                        B. Moons, R. Uytterhoeven, W. Dehaene, and M. Verhelst,   
+						"<a href="https://ieeexplore.ieee.org/document/7870353" target="_blank">
+						14.5 envision: A 0.26-to-10tops/w subword-parallel dynamic-voltage-accuracy-frequencyscalable convolutional neural network processor in 28nm fdsoi</a>." ISSCC, 2017.
+                    </li>
+                    <li>
+                        Johnjohnlin, 
+						"<a href="https://github.com/johnjohnlin/nicotb" target="_blank">
+						Nicotb, a python-verilog co-simulation framework</a>."
+                    </li>
+                </ul>
+
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<section id="footer">
+				<ul class="icons">
+					<li><a href="https://github.com/enhoshen/" class="icon brands alt fa-github"><span 
+					class="label">GitHub</span></a></li>
+					<li><a a:visited="" href="mailto:enhoshen@media.ee.ntu.edu.tw" 
+					class="icon solid alt fa-envelope"><span class="label">Email</span></a></li>
+				</ul>
+				<ul class="copyright">
+					<li>&copy; En-Ho Shen. All rights reserved.</li><li>Design: <a href="http://html5up.net/photon"><b>Photon</b> </a>,<a href="http://html5up.net/miniport"><b>Miniport</b></a></li>
+				</ul>
+			</section>
+
+		<!-- Scripts -->
+			<script src="../assets/js/jquery.min.js"></script>
+			<script src="../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../assets/js/browser.min.js"></script>
+			<script src="../assets/js/breakpoints.min.js"></script>
+			<script src="../assets/js/util.js"></script>
+			<script src="../assets/js/main.js"></script>
+
+	</body>
+</html>
